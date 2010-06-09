@@ -78,7 +78,7 @@ class Scails::MIDIator::Interface
     [note].flatten.each do |n|
       @driver.note_on( n, channel, velocity )
     end
-    @timer.at(time + duration) do |t|
+    @timer.before(time + duration) do |t| # we use before here incase another note on message is scheduled for the same time
       [note].flatten.each do |n|
         @driver.note_off( n, channel, velocity )
       end 

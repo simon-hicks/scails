@@ -22,6 +22,7 @@ require 'scails'
 class Scails::MIDIator::Driver::WinMM < Scails::MIDIator::Driver # :nodoc:
   module C # :nodoc:
     extend DL::Importable
+
     dlload 'winmm'
 
     extern "int midiOutOpen(HMIDIOUT*, int, int, int, int)"

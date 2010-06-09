@@ -1,5 +1,4 @@
 
-
 class Scails::Clock
   include Singleton
 
@@ -28,7 +27,7 @@ class Scails::Clock
   end
 
   def before time, &block
-    @queue << [time - @resolution, block]
+    @queue << [time - (6 * @resolution), block]
   end
 
   def flush

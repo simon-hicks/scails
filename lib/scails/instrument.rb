@@ -6,13 +6,21 @@ class Scails::Instrument
     @channel = channel
   end
 
-  def play note, duration, volume
+  def play note, duration, volume = 80
     @midi.play note, duration, @channel, volume
   end
 
   def at time, method, *args
     unless @stop
-      Clock.instance.at time do |t|
+      Scails::Clock.instance.at time do |t|
+        self.send(method, t, *args)
+      end
+    end
+  end
+
+  def before time, method, *args
+    unless @stop
+      Scails::Clock.instance.before time do |t|
         self.send(method, t, *args)
       end
     end
@@ -20,12 +28,18 @@ class Scails::Instrument
 
   # stops BEFORE the specified time, so that if you run #stop(next_bar) it stops at the end of the bar... (rather than running the loop one more time)
   def stop time = nil
-    time ? @stop = true : self.before(time, :stop)
+    unless time
+      @stop = true 
+    else
+      Scails::Clock.instance.before(time) do |t|
+        self.stop
+      end
+    end
   end
 
   def start time, method, *args
     @stop = false
-    Clock.instance.at time do |t|
+    Scails::Clock.instance.at time do |t|
       self.send(method, t, *args)
     end
   end
