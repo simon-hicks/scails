@@ -3,16 +3,15 @@
 module Scails
 end
 
-%w(rubygems singleton dl/import dl/struct tempfile highline).each do |f|
+%w(rubygems singleton dl tempfile highline platform).each do |f|
   require f
 end
 
-require 'rubygems' 
-require 'singleton' 
-require 'dl/import'
-require 'dl/struct'
-require 'tempfile'
-require 'highline'
+#require 'rubygems' 
+#require 'singleton' 
+#require 'dl'
+#require 'tempfile'
+#require 'highline'
 
 require File.expand_path(File.dirname(__FILE__) + '/scails/live')
 require File.expand_path(File.dirname(__FILE__) + '/scails/extensions')

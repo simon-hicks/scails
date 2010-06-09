@@ -24,6 +24,8 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "VERSION.yml",
+     "bin/scails",
      "lib/extensions/kernel.rb",
      "lib/extensions/numeric.rb",
      "lib/extensions/object.rb",
@@ -45,6 +47,9 @@ Gem::Specification.new do |s|
      "lib/scails/midiator/drivers/winmm.rb",
      "lib/scails/midiator/exceptions.rb",
      "lib/scails/midiator/interface.rb",
+     "live.scails.rb",
+     "scails.gemspec",
+     "score.scails.rb",
      "spec/scails_spec.rb",
      "spec/spec_helper.rb"
   ]
