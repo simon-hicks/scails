@@ -5,16 +5,19 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "scails"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{live-coding/algorithmic composition for ruby}
+    gem.description = %Q{Scails is a basic framework for live-coding/algorithmic composition, inspired by impromtu and Topher Cyll's amazing book "Practical Ruby Projects". It doesn't do anything that you couldn't do using other gems (in fact most of the code was lifted straight out of either MIDIator or scruby), but it does things the way I want them done...}
     gem.email = "ruby@simonhicks.org"
     gem.homepage = "http://github.com/simon-hicks/scails"
     gem.authors = ["simon-hicks"]
     gem.add_development_dependency "rspec"
+    files_to_add = Dir[File.dirname(__FILE__) + '/lib/**/*.rb'].map{|f| f.gsub(File.dirname(__FILE__) + '/', '')}
+    gem.files.include files_to_add
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
-rescue LoadError
+rescue LoadError => e
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
+  puts e
 end
 
 require 'spec/rake/spectask'
