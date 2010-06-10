@@ -1,0 +1,9 @@
+fix gem dependencies
+
+extend DLS module to include AUs in general
+
+add OSC support
+
+make it easier to connect to a midi instrument using midi patch bay
+
+(make the same adjustments to MIDIator
