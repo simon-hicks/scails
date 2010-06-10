@@ -75,34 +75,42 @@ end
 I   = [0 ,4 ,7 ]
 ii  = [2 ,5 ,9 ]
 iii = [4 ,7 ,11]
-IV  = [5 ,9 ,12]
-V   = [7 ,11,14]
-vi  = [9 ,12,16]
-vii = [11,14,17]
+IV  = [5 ,9 ,0 ]
+V   = [7 ,11,2 ]
+vi  = [9 ,0 ,4 ]
+vii = [11,14,5 ]
 
-@left.play I+60,1
+@left.play [0,4,7]+60,4.beats
 
-@left.play I+61,1
+@right.play [5,9,0]+60,4.beats
 
-@left.play I+62,1
+@left.play [2,5,9]+60,4.beats
 
-@left.play I+63,1
+@right.play [7,11,2]+60,4.beats
 
-@left.play I+64,1
+@left.play [4,7,12]+60,4.beats
 
-@left.play I+65,1
+require 'rb-music-theory'
 
-@left.play I+66,1
+c = Note.new(60)
 
+puts c.major_scale.methods.reject{|m| Object.new.methods.include?(m)}
 
+puts c.methods.select{|m| m.to_s =~ /chord/}
 
-class ::Array
+c.major_chord.note_values
+
+class PC < Array
   alias old_plus +
   def + object
-    if object.is_a? Numeric
-      self.map{|n| n+ object}
+    case object
+    when Numeric
+      self.map{|n| n + object}
     else
-      old_plus object
+      self.old_plus object
     end
   end
+
+  def move_to chord
+    # returns the midi values for the members of self that are closest to the values in chord
 end
