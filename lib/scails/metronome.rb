@@ -1,4 +1,5 @@
 class Scails::Metronome
+
   include Singleton
 
   attr_accessor :zero_time, :bars_per_second, :beats_per_bar
@@ -33,7 +34,7 @@ class Scails::Metronome
   end
 
   def bars_per_minute= new_value
-    bars_per_second=(new_value/60.0)
+    @bars_per_second=(new_value/60.0)
   end
 
   def self.method_missing name, *args

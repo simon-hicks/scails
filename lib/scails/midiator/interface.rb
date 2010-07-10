@@ -73,7 +73,8 @@ class Scails::MIDIator::Interface
 
 
   # A little shortcut method for playing the given +note+ for the specified +duration+. If +note+ is an array, all notes in it are played as a chord.
-  def play( note, duration = 0.1, channel = 0, velocity = 100 )
+  def play( note, duration = 0.1, channel = 0, velocity = 80 )
+    return unless note
     time = Time.now
     [note].flatten.each do |n|
       @driver.note_on( n, channel, velocity )

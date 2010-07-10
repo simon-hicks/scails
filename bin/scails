@@ -2,4 +2,11 @@
 
 require File.join(File.dirname(__FILE__), "../lib/scails")
 
-Scails::Live::Session.new
+begin
+  Scails::Live::Session.new
+rescue SystemExit
+  # do stuff to tidy up after a session here
+  if File.exist?( temp_file = "#{Dir.tmpdir}/ruby_live.pipe" )
+    `rm #{temp_file}`
+  end
+end

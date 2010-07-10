@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+#### THE FOLLOWING NOTICES ONLY APPLY TO String#camelize and #underscore. The rest is written by simon hicks who is too lazy to bother with copyright notices and so on. 
+
 #
 # Some extensions to the built-in Ruby String class.
 #
@@ -9,12 +11,17 @@
 #
 # == Copyright
 #
-# Copyright (c) 2008 Ben Bleything, except where noted.
+# Copyright (c) 2008 Ben Bleything, except where noted. 
 #
 # This code released under the terms of the MIT license.
 #
 
 class String
+  def to_k
+    Scails::Key.new(self)
+  end
+
+
   ### NOTE: Stolen from ActiveSupport.  They hold the copyright.  Our
   ### modifications are making it a method on String and removing the
   ### lowerCamelCase option since we don't use it.
