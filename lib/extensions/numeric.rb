@@ -19,5 +19,11 @@ class Numeric
   end
 
   alias bars bar
+
+  def octave
+    self * 12
+  end
+  
+  alias octaves octave
 end
 

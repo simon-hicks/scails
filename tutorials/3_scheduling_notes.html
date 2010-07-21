@@ -1,0 +1,69 @@
+<h1>
+  Scails - Scheduling notes and events
+</h1>
+<h2>
+  Playing a scale.
+</h2>
+<p>
+  So now it's time to play our first scale! First lets recap. Before we start making any sound we need to create our instrument. For this example we will use the dls synth since it's so easy.
+</p>
+<p>
+  `dls = Scails::MIDIator::Interface.new.use :dls_synth
+  piano = i(dls, 0)`
+</p>
+<p>
+  Now that we have a piano instrument, we can use it to play a scale. Let's try C major. The midi notes for C major are `[60, 62, 64, 65, 67, 69, 71, 72]`... here we go.
+</p>
+<p>
+  `scale = [60, 62, 64, 65, 67, 69, 71, 72]
+  scale.each{|note| piano.play(note, 1)`
+</p>
+<p>
+  Hmm... that didn't work so well. What went wrong? The problem is that the #play method doesn't wait for the note to finish sounding before returning... instead it schedules the note-off message for later and returns almost immediately. As a result, all ten notes are played almost simultaneously. Ok... let's try again...
+</p>
+<p>
+  `scale = [60, 62, 64, 65, 67, 69, 71, 72]
+</p>
+scale.each{|note| piano.play(note, 1); sleep 1}`
+<p>
+  There...much better, but doing everything with sleep is going to get complicated pretty soon... there must be a better way. It turns out there is!
+</p>
+<code>scale = [60, 62, 64, 65, 67, 69, 71, 72]
+scale.each_with_index{|note, i| piano.play_at(Time.now + i, note, 1)}</code>
+<p>
+  Again, this doesn't make things much easier with a simple scale, but once we get to more complicated stuff it's a _huge_ improvement.
+</p>
+<h2>
+  Scheduling more complex sequences
+</h2>
+<p>
+  Now that we can connect to a soft-synth, play a note and schedule a note for some future time we have enough tools to make some basic music, but our tools are still pretty limited. What if you want to schedule something more complicated? Fortunately, there are plenty of other ways to schedule things. To demonstrate this, we'll create a simple repeating scale. First we need to create an instance method on piano to play the scale
+</p>
+<code>def piano.play_scale scale = [60, 62, 64, 65, 67, 69, 71, 72
+&nbsp&nbsptime = Time.now
+&nbsp&nbspscale.each_with_index{|note,i| play_at(time + i, note, 1)}
+end
+piano.play_scale</code>
+<p>
+  Next, we want to make the scale repeat up and down. To do this, we will use a technique known as temporal recursion. This is where a methods last action is schedule a future call to itself. We'll do this using `Scails::Clock.instance.at(time) do ... end`. Using this method we can schedule any block of code to execute at some later point in time. We also move the time declaration to the argument list. Because of the way that this and other scheduling methods work, time must be the first argument in the list.
+</p>
+<code>def piano.play_scale time, scale = [60, 62, 64, 65, 67, 69, 71, 72]
+&nbsp&nbspscale.each_with_index{|note, i| play_at(time + i, note, 1)}
+&nbsp&nbspScails::Clock.instance.at(time + scale.size) { |t| play_scale(t, scale.reverse) }
+end
+piano.play_scale(Time.now)</code>
+<p>
+  That's much better, but there's still a couple of problems. First of all, the temporal recursion line is _far_ too verbose, and perhaps more importantly, the only way to stop the temporal recursion without exiting scails is by commenting out the second line of the method (the one that calls itself again) and redefining the method (by sending the code to scails a second time). Frankly, that's just rubbish. Luckily for us there's an easy solution to both of those problems. The `Instrument#at(time, method, *args)` method. This checks if the instrument is set to stop and if not, it schedules a self.send(method, time, *args) to be run at the given time. We can use it as follows...
+</p>
+<code>def piano.play_scale time, scale = [60, 62, 64, 65, 67, 69, 71, 72]
+&nbsp&nbspscale.each_with_index{|note, i| play_at(time + i, note, 1)}
+&nbsp&nbspat(time + scale.size, :play_scale, scale.reverse)
+end
+piano.play_scale Time.now
+piano.stop(Time.now) # now we can use the #stop method.</code>
+<p>
+  Isn't that nicer? There is one more problem though... now if we call #play_scales again, it doesn't recurse because @stop is still set to true. We could just change the value manually, but you just _know_ you're going to forget to reset it at the climax of your masterpiece. To solve this, we can use the #start(time, method, *args) method. This functions exactly the same as #at except it sets @stop to false first.
+</p>
+<code>piano.play_scale(Time.now)
+piano.stop # without a time argument this takes effect immediately, cancelling the next recursion
+piano.start(Time.now, :play_scale)</code>

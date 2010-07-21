@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 class Scails::Instrument
+  attr_accessor :stop
+
   def initialize interface, channel=0, control_map={}
     @interface = interface
     @channel = channel
@@ -55,10 +57,13 @@ class Scails::Instrument
   end
 
   def map_control name, control_number
-    instance_eval "
+    instance_eval("
       def #{name}= value
         @interface.control_change #{number}, @channel, value
-      end"
+        @#{name} = value
+      end
+
+      attr_reader :#{name}")
     nil
   end
 end

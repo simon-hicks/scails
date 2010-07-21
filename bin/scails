@@ -3,6 +3,7 @@
 require File.join(File.dirname(__FILE__), "../lib/scails")
 
 begin
+  `term -t vim live.scails.rb`
   Scails::Live::Session.new
 rescue SystemExit
   # do stuff to tidy up after a session here

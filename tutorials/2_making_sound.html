@@ -1,0 +1,64 @@
+<h1>
+  Scails - Making sound
+</h1>
+<h2>
+  Getting a sound source.
+</h2>
+<p>
+  Unfortunately, scails isn't capable of creating sound on its own (yet), so the first thing we need to do is create a midi interface that will act as the bridge between ruby/scails and your external sound source. Now, since the midi interface is only a bridge to an external sound source, before we create the 'bridge' we need to open the sound source itself. Any midi capable soft-synth will do, but you _do_ need something (eg. I recommend Reason for the novice and Reaktor for the more experienced electronic musician). Setting these up to accept midi input from a virtual source takes some doing, but a bit of intelligent googling should help. On OS X using 'midi patch bay' makes this much easier.
+</p>
+<p>
+  Fortunately for anyone using OS X, there is a shortcut... OS X includes a simple built-in soft-synth which we can use instead. Either way, unless you are using the dls synth, you need to have a sound source open and ready to receive midi instructions from a virtual source before you continue. with the dls synth, you don't need to do anything.
+</p>
+<p>
+  I realise this all seems pretty un-helpful, but it's not as complicated as it sounds and once you've got past this stage done, everything else is easy!
+</p>
+<h2>
+  Creating a midi interface.
+</h2>
+<p>
+  Right... now we got the nasty setup out the wayIn order to allow scails to talk to your soft-synth you need to create a midi interface.
+</p>
+<code>@midi = Scails::MIDIator::Interface.new</code>
+<p>
+  Now that we've got an interface we need to connect it to your synth. If you're using the dls synth, you can do this as follows...
+</p>
+<code>@midi.use :dls_synth</code>
+<p> ...otherwise, if you're using a regular soft-synth you can use the #autodetect_driver method </p>
+<code>@midi.autodetect_driver</code>
+<h2>
+  Using the midi interface
+</h2>
+<p>
+  OK... so we're _finally_ ready to actually make a sound! We can do this using the Interface#play method.
+</p>
+<code>note = 60
+duration = 1
+volume = 80
+channel = 0
+@midi.play note, duration, channel, volume</code>
+<p>
+  This plays midi note 60 (ie. middle C or 261.63hz) for 1 second at a volume of 80 (out of a maximum of 127), and it sends the message on midi channel 0. If you don't know what any of that means, then you should probably do some reading on the basics of midi before continuing (again... google is your friend!).
+</p>
+<p>
+  Now this is all well and good, but it's a bit crude and doesn't allow for much abstraction. Instead the preferred method for interacting with midi is the Scails::Instrument class. First we need to create an Instrument, passing the MIDIator::Interface instance and a channel number as the arguments.
+</p>
+<code>piano = Scails::Instrument.new(@midi, 0) # We can use the full form
+piano = i(@midi, 0) # or the shortcut</code>
+<p>
+  We can now play the same note as before as follows...
+</p>
+<p>
+  piano.play 60, 1, 80
+</p>
+<p>
+  This may not seem much better than using the midi interface directly, but if you have many different instruments using the same interface on different channels consider how much easier this will be than the alternative.
+</p>
+<code>lead_synth1 = i(@midi, 0)
+lead_synth2 = i(@midi, 1)
+bass = i(@midi, 2)
+choir = i(@midi, 3)
+drums = i(@midi, 10)</code>
+<p>
+  Using the Instrument class also bring other benefits which we will look at later.
+</p>

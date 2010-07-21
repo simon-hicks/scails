@@ -1,0 +1,42 @@
+%h1 
+  Scails - Getting Started
+
+%h2 
+  Installation
+%p
+  At the moment, the only way to install scails is to clone the github repository and build the gem yourself. You can do this with the following commands.
+
+%code
+  git clone git://github.com/simon-hicks/scails.git
+  sudo rake install
+
+%p
+  Doing the above probably requires Jeweler, which is the gem packaging gem I used. I will get round to putting it on gemcutter eventually... I promise!
+
+%h2 
+  Using scails
+
+%p
+  You can start a scails sesion simply by typing `scails` on the command line. This starts a thread which continuously reads and evals code fed in through a unix pipe. You can send code to this pipe from the shell using the following command:
+
+%code
+  $ echo '...some ruby code...' | tr '\n' '∂' > `ruby -e "require 'tempfile'; puts Dir.tmpdir"`/ruby_live.pipe
+
+%h3 
+  Using scails from vim
+
+%p
+  The gem includes a vim plugin for this ('ftplugin/scails.vim'), which can be installed by copying it into ~/.vim . Since this is a filetype specific plugin, you also need to tell vim when to use use it. You can do this by adding `au BufRead,BufNewFile *.scails.rb    set filetype=scails` to the end of your .vimrc file. This will activate the scails plugin whenever you are editting a file with the extension .scails.rb
+
+%p
+  Once this plugin is installed you can send an entire paragraph to the session while in command mode using ,e (a paragraph means a block of code without any empty lines). ,E sends the current line and ,a sends the whole of the current document. In visual mode, ,e will send the currently highlighted block. The gem also includes a set of snippets for use with the awesome [snippet.vim](http://www.vim.org/scripts/script.php?script_id=2152) plugin.
+
+%h3 
+  Using scails from other editors
+
+%p
+  Although I have not provided plugins for other editors, the process is fairly simple and it shouldn't be difficult to implement in your own editor of choice. Since the code that implements the pipes is lifted directly from [maca's scruby](http://github.com/maca/scruby) (thanks maca!) you can probably use his TextMate plugin with minimal (if any) changes.
+
+
+%p
+  Now that we've got the boring stuff out of the way, it's time to start making some music!

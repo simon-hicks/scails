@@ -70,4 +70,12 @@ module Kernel
     raise "All arguments to group must be the same class" unless objects.inject(true){|mem, object| result = mem && (object.class == previous_object.class); previous_object = object; result}
     previous_object.class.make_group(*objects)
   end
+
+  def sinr time, frequency
+    Math.sin(time.to_f * Math::PI * 2 * frequency)
+  end
+
+  def cosr time, frequency
+    Math.cos(time.to_f * Math::PI * 2 * frequency)
+  end
 end

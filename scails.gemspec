@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["simon-hicks"]
-  s.date = %q{2010-07-10}
+  s.date = %q{2010-07-21}
   s.default_executable = %q{scails}
   s.description = %q{Scails is a basic framework for live-coding/algorithmic composition, inspired by impromtu and Topher Cyll's amazing book "Practical Ruby Projects". It doesn't do anything that you couldn't do using other gems (in fact most of the code was lifted straight out of either MIDIator or scruby), but it does things the way I want them done...}
   s.email = %q{ruby@simonhicks.org}
@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
      "notes.txt",
      "scails.gemspec",
      "score.scails.rb",
+     "sessions/simple_piano.scails.rb",
      "spec/scails_spec.rb",
      "spec/spec_helper.rb"
   ]
