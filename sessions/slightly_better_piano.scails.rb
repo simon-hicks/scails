@@ -1,7 +1,8 @@
 @midi = Scails::MIDIator::Interface.new
 @midi.use(:dls_synth)
 @piano = i(@midi, 0)
-$key = Scails::Key.new 'Amaj'
+
+$key = Scails::Key.new 'Amin'
 
 def @piano.chords time, degree
   @chord = c($key, degree)
@@ -21,11 +22,11 @@ def @piano.arp time, last_index = 5
   if last_index < (arp.size - 1) && last_index > 0
     new_index = last_index + [-1, 0, 1].wchoose([2,1,2])
   elsif last_index >= (arp.size - 1)
-    new_index = last_index + [-1, -1, 0].choose
+    new_index = last_index + [-1, 0].wchoose([2,1])
   elsif last_index <= 0
-    new_index = last_index + [0, 1, 1].choose
+    new_index = last_index + [0, 1].wchoose([1,2])
   end
-  dur = [0.5, 0.5, 1].choose.beats
+  dur = [0.5, 1].wchoose([2,1]).beats
   volume = (60..80).to_a.choose
   play(arp[new_index], dur, volume)
   at(time + dur, :arp, new_index)
@@ -61,9 +62,9 @@ end
 
 @piano.start next_bar, :chords, 'I'
 
-@piano.start next_bar, :walk
-
 @piano.start next_bar, :arp
+
+@piano.start next_bar, :walk
 
 @piano.start next_bar, :slow_descent
 

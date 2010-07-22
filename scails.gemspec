@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["simon-hicks"]
-  s.date = %q{2010-07-21}
+  s.date = %q{2010-07-22}
   s.default_executable = %q{scails}
   s.description = %q{Scails is a basic framework for live-coding/algorithmic composition, inspired by impromtu and Topher Cyll's amazing book "Practical Ruby Projects". It doesn't do anything that you couldn't do using other gems (in fact most of the code was lifted straight out of either MIDIator or scruby), but it does things the way I want them done...}
   s.email = %q{ruby@simonhicks.org}
@@ -50,17 +50,30 @@ Gem::Specification.new do |s|
      "lib/scails/midiator/drivers/mmj.rb",
      "lib/scails/midiator/drivers/winmm.rb",
      "lib/scails/midiator/exceptions.rb",
+     "lib/scails/midiator/instrument.rb",
      "lib/scails/midiator/interface.rb",
      "lib/scails/motive.rb",
      "lib/scails/pitch_class.rb",
      "lib/scails/rhythm.rb",
      "live.scails.rb",
      "notes.txt",
+     "practice/psy.scails.rb",
      "scails.gemspec",
+     "scheduling_notes.md",
      "score.scails.rb",
      "sessions/simple_piano.scails.rb",
+     "sessions/slightly_better_piano.scails.rb",
      "spec/scails_spec.rb",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "tutorials/1_getting_started.haml",
+     "tutorials/1_getting_started.html",
+     "tutorials/1_getting_started.md",
+     "tutorials/2_making_sound.haml",
+     "tutorials/2_making_sound.html",
+     "tutorials/2_making_sound.md",
+     "tutorials/3_scheduling_notes.haml",
+     "tutorials/3_scheduling_notes.html",
+     "tutorials/3_scheduling_notes.md"
   ]
   s.homepage = %q{http://github.com/simon-hicks/scails}
   s.rdoc_options = ["--charset=UTF-8"]
