@@ -56,7 +56,7 @@ module Kernel
 
   # shortcut to create Instrument objects
   def i *args
-    Scails::Instrument.new(*args)
+    Scails::MIDIator::Instrument.new(*args)
   end
 
   # shortcut to create Motive objects
