@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-class Scails::Instrument
+module Scails::Instrument
   attr_accessor :stop
 
   def initialize interface, channel=0, control_map={}
