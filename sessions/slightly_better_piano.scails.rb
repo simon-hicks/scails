@@ -1,8 +1,7 @@
 @midi = Scails::MIDIator::Interface.new
 @midi.use(:dls_synth)
 @piano = i(@midi, 0)
-
-$key = Scails::Key.new 'Amin'
+$key = Scails::Key.new 'Amaj'
 
 def @piano.chords time, degree
   @chord = c($key, degree)

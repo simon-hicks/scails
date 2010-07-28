@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["simon-hicks"]
-  s.date = %q{2010-07-22}
+  s.date = %q{2010-07-28}
   s.default_executable = %q{scails}
   s.description = %q{Scails is a basic framework for live-coding/algorithmic composition, inspired by impromtu and Topher Cyll's amazing book "Practical Ruby Projects". It doesn't do anything that you couldn't do using other gems (in fact most of the code was lifted straight out of either MIDIator or scruby), but it does things the way I want them done...}
   s.email = %q{ruby@simonhicks.org}
@@ -45,9 +45,11 @@ Gem::Specification.new do |s|
      "lib/scails/midiator/driver.rb",
      "lib/scails/midiator/driver_registry.rb",
      "lib/scails/midiator/drivers/alsa.rb",
+     "lib/scails/midiator/drivers/audio_unit.rb",
      "lib/scails/midiator/drivers/core_midi.rb",
      "lib/scails/midiator/drivers/dls_synth.rb",
      "lib/scails/midiator/drivers/mmj.rb",
+     "lib/scails/midiator/drivers/reaktor.rb",
      "lib/scails/midiator/drivers/winmm.rb",
      "lib/scails/midiator/exceptions.rb",
      "lib/scails/midiator/instrument.rb",
