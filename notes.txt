@@ -1,15 +1,11 @@
 fix gem dependencies
 
-move all Kernel methods to Scails::Shortcuts
-
 change Scails::Instrument#at to #loop_at (ie. calls the method using time as the first arg)
 add Scails::Instrument#do_at (ie. calls method without without the time arg)
 
 add Shortcuts#loop_at and #do_at
 
 change snippets to reflect the loop_at and do_at methods
-
-fix tempo snippet
 
 add ramp and osc methods
 
