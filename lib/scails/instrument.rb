@@ -11,20 +11,6 @@ module Scails::Instrument
     end
   end
 
-  def at time, method, *args
-    Scails::Clock.instance.at time do |t|
-      self.send(method, t, *args)
-    end
-    nil
-  end
-
-  def before time, method, *args
-    Scails::Clock.instance.before time do |t|
-      self.send(method, t, *args)
-    end
-    nil
-  end
-
   # stops BEFORE the specified time, so that if you run #stop(next_bar) it stops at the end of the bar... (rather than running the loop one more time)
   def stop time = nil
     unless time

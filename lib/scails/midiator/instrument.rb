@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 class Scails::MIDIator::Instrument
+  include Scails::Shortcuts::Scheduling
   include Scails::Instrument
 
   def initialize interface, channel=0, control_map={}

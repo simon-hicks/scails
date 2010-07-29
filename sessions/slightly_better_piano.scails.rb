@@ -13,7 +13,7 @@ def @piano.chords time, degree
     'V'    => ['VI','IV'], 
     'VI'   => ['IV']
   }[degree].choose
-  at(time + 4.beat, :chords, new_degree)
+  # loop_at(time + 4.beat, :chords, new_degree) if self.repeat
 end
 
 def @piano.arp time, last_index = 5
@@ -28,7 +28,7 @@ def @piano.arp time, last_index = 5
   dur = [0.5, 1].wchoose([2,1]).beats
   volume = (60..80).to_a.choose
   play(arp[new_index], dur, volume)
-  at(time + dur, :arp, new_index)
+  loop_at(time + dur, :arp, new_index) if self.repeat
 end
 
 def @piano.walk time, last_degree = 45
@@ -42,7 +42,7 @@ def @piano.walk time, last_degree = 45
     volume = (60..80).to_a.choose
     play_at(time + (i/2.0).beat, $key.at(new_degree), 0.5, volume)
   end
-  at(time + (number/2).beat, :walk, new_degree)
+  # loop_at(time + (number/2).beat, :walk, new_degree) if self.repeat
 end
 
 def @piano.slow_descent time, last_degree = 55
@@ -56,7 +56,7 @@ def @piano.slow_descent time, last_degree = 55
     vol = (50..70).to_a.choose
     play_at(time + (i * dur), $key.at(new_degree), dur, vol)
   end
-  at(time + (4 * dur), :slow_descent, new_degree)
+  loop_at(time + (4 * dur), :slow_descent, new_degree) if self.repeat
 end
 
 @piano.start next_bar, :chords, 'I'

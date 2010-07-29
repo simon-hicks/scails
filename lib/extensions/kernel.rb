@@ -21,4 +21,12 @@ module Kernel
   def warn string
     p Scails::Live::Warning.new "warning: #{ string }"
   end
+
+  extend  Scails::Shortcuts::Music
+  extend  Scails::Shortcuts::Scheduling
+end
+
+class Object
+  include Scails::Shortcuts::Music
+  include Scails::Shortcuts::Scheduling
 end
