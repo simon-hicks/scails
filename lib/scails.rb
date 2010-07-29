@@ -7,6 +7,6 @@ end
   require f
 end
 
-%w(live extensions clock metronome instrument midiator constants key motive pitch_class chord rhythm shortcuts).each do |f|
+%w(extensions clock metronome instrument midiator constants key motive pitch_class chord rhythm shortcuts live).each do |f|
   require File.expand_path(File.dirname(__FILE__) + '/scails/' + f)
 end

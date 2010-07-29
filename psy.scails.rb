@@ -3,6 +3,8 @@
 set_tempo(0.5, :bars_per_second)
 $key = k('Amin')
 
+extend Scails::Shortcuts
+
 # instruments
 
 @bass = i(@midi, 0)
@@ -36,8 +38,6 @@ module Scails::Shortcuts
   end
 end
 extend Scails::Shortcuts
-
-puts self.class.class
 
 hello
 

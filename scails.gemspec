@@ -61,6 +61,7 @@ Gem::Specification.new do |s|
      "notes.txt",
      "practice/psy.scails.rb",
      "psy.scails.rb",
+     "reason/MIDI_Implementation_Charts_Reason_Version_4.pdf",
      "reason/redrum.txt",
      "scails.gemspec",
      "scheduling_notes.md",

@@ -2,6 +2,7 @@
 
 class Scails::Live::Session
   include HighLine::SystemExtensions
+  include Scails::Shortcuts
   
   # Starts a live session using a named pipe to receive code from a remote source and evaluates it within a context, a bit like an IRB session but evaluates code sent from a text editor
   def initialize

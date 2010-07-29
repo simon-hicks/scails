@@ -64,7 +64,3 @@ module Scails::Shortcuts
     Scails::Key.new(name)
   end
 end
-
-class Scails::Live::Session
-  extend Scails::Shortcuts
-end
