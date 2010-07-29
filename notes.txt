@@ -1,9 +1,15 @@
 fix gem dependencies
 
-extend DLS module to include AUs in general
+move all Kernel methods to Scails::Shortcuts
 
-add OSC support
+change Scails::Instrument#at to #loop_at (ie. calls the method using time as the first arg)
+add Scails::Instrument#do_at (ie. calls method without without the time arg)
 
-make it easier to connect to a midi instrument using midi patch bay
+add Shortcuts#loop_at and #do_at
 
-(make the same adjustments to MIDIator
+change snippets to reflect the loop_at and do_at methods
+
+fix tempo snippet
+
+add ramp and osc methods
+
