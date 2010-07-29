@@ -16,7 +16,7 @@ class Scails::MIDIator::Instrument
   def map_control name, control_number
     instance_eval("
       def #{name}= value
-        @interface.control_change #{number}, @channel, value
+        @interface.control_change #{control_number}, @channel, value
         @#{name} = value
       end
 

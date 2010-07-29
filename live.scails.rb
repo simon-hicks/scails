@@ -3,6 +3,19 @@
 @piano = i(@midi, 0)
 $key = Scails::Key.new 'Amaj'
 
+@midi = Scails::MIDIator::Interface.new
+@midi.autodetect_driver
+
+@midi.play(60,1, 80)
+
+rhodes = i(@midi, 0)
+bass = i(@midi, 1)
+
+rhodes.play(60, 1, 80)
+
+bass.play(60, 1, 80)
+
+
 def @piano.chords time, degree
   @chord = c($key, degree)
   @chord.each{|n| play n+60 , 4.beat, 80}

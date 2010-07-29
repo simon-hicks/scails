@@ -45,7 +45,6 @@ Gem::Specification.new do |s|
      "lib/scails/midiator/driver.rb",
      "lib/scails/midiator/driver_registry.rb",
      "lib/scails/midiator/drivers/alsa.rb",
-     "lib/scails/midiator/drivers/audio_unit.rb",
      "lib/scails/midiator/drivers/core_midi.rb",
      "lib/scails/midiator/drivers/dls_synth.rb",
      "lib/scails/midiator/drivers/mmj.rb",
