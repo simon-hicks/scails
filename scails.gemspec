@@ -56,6 +56,7 @@ Gem::Specification.new do |s|
      "lib/scails/motive.rb",
      "lib/scails/pitch_class.rb",
      "lib/scails/rhythm.rb",
+     "lib/scails/shortcuts.rb",
      "live.scails.rb",
      "notes.txt",
      "practice/psy.scails.rb",
