@@ -12,19 +12,15 @@ module Scails::Instrument
   end
 
   def at time, method, *args
-    if self.repeat
-      Scails::Clock.instance.at time do |t|
-        self.send(method, t, *args)
-      end
+    Scails::Clock.instance.at time do |t|
+      self.send(method, t, *args)
     end
     nil
   end
 
   def before time, method, *args
-    if self.repeat
-      Scails::Clock.instance.before time do |t|
-        self.send(method, t, *args)
-      end
+    Scails::Clock.instance.before time do |t|
+      self.send(method, t, *args)
     end
     nil
   end
@@ -39,6 +35,10 @@ module Scails::Instrument
       end
     end
     nil
+  end
+
+  def go
+    self.repeat = true
   end
 
   def start time, method, *args
