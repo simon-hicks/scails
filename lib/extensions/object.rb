@@ -1,4 +1,7 @@
 class Object
+  include Scails::Shortcuts::Music
+  include Scails::Shortcuts::Scheduling
+
   # Outputs an ANSI colored string with the object representation
   def to_live_output
     case self

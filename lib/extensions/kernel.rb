@@ -25,8 +25,3 @@ module Kernel
   extend  Scails::Shortcuts::Music
   extend  Scails::Shortcuts::Scheduling
 end
-
-class Object
-  include Scails::Shortcuts::Music
-  include Scails::Shortcuts::Scheduling
-end
