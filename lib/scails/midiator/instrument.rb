@@ -20,7 +20,9 @@ class Scails::MIDIator::Instrument
         @#{name} = value
       end
 
-      attr_reader :#{name}")
+      def #{name}
+        @#{name}
+      end")
     nil
   end
 end
