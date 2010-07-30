@@ -61,19 +61,47 @@ module Scails::Shortcuts
       Math.cos(time.to_f * Math::PI * 2 * frequency)
     end
 
+    def sawr time, frequency
+      period = 1.0 / frequency
+      (((time % period) / period) * 2) - 1
+    end
+
+    def trir time, frequency
+      relative_time = (time % period)
+      if relative_time < (period / 4)
+        # first section ascends from 0 to 1
+        (relative_time / period) * 4
+      elsif relative_time > ((3 * period) / 4)
+        # last section ascends from -1 to 0
+        ((relative_time - ((3 * period) / 4) / period) * 4)
+      else
+        # middle section descends from 1 to -1
+        1 - (((relative_time - (period / 4)) / period) * 4)
+      end
+    end
+
+    def squr time, frequency
+      period = 1.0 / frequency
+      (time % period) < (period / 2) ? 1 : 0
+    end
+
     def k name
       Scails::Key.new(name)
     end
   end
 
   module Scheduling
-    def midi_ramp time, start_value, end_value, seconds, &block
+    def control_ramp time, start_value, end_value, seconds, &block
       range = end_value < start_value ? (end_value..start_value).to_a.reverse : (start_value..end_value).to_a
       tick_size = seconds.to_f / (range.size - 1)
       range.each_with_index do |v,i|
         Scails::Clock.instance.at(time + (i * tick_size)){ |t| block.call(v) }
       end
       nil
+    end
+
+    def control_osc options, &block
+      Scails::ControlOscillator.new(options, block)
     end
 
     def loop_at time, method, *args
