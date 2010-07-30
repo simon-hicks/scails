@@ -1,4 +1,4 @@
 fix gem dependencies
 
-add ramp and osc shortcuts
+add osc shortcut
 

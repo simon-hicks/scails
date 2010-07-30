@@ -67,6 +67,15 @@ module Scails::Shortcuts
   end
 
   module Scheduling
+    def midi_ramp time, start_value, end_value, seconds, &block
+      range = end_value < start_value ? (end_value..start_value).to_a.reverse : (start_value..end_value).to_a
+      tick_size = seconds.to_f / (range.size - 1)
+      range.each_with_index do |v,i|
+        Scails::Clock.instance.at(time + (i * tick_size)){ |t| block.call(v) }
+      end
+      nil
+    end
+
     def loop_at time, method, *args
       Scails::Clock.instance.at time do |t|
         self.send(method, t, *args)
