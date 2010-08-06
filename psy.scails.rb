@@ -1,68 +1,55 @@
-@midi = Scails::MIDIator::Interface.new
-@midi.autodetect_driver
+$midi = Scails::MIDIator::Interface.new
+$midi.autodetect_driver
 set_tempo(0.5, :bars_per_second)
 $key = k('Amin')
 
-extend Scails::Shortcuts
+$redrum = i($midi, 0)
 
-# instruments
-
-@bass = i(@midi, 0)
-@kick = i(@midi, 1)
-@pads = i(@midi, 2)
-@lead1 = i(@midi, 3)
-
-@pads.map_control :wheel, 1
-
-# chords
-
-def chord_seq time, chord = 'i'
-  $chord = c($key, chord)
-  next_chord = {'i' => ['iv', 'ii'],
-                'ii'=> ['vi'],
-                'iv'=> ['i'],
-                'vi' => ['iv']}[chord].choose
-  Scails::Clock.instance.at(next_bar) { |t| chord_seq(t, next_chord) }
-end
-
-def kick_and_bass time
-  @kick.play(30, 0.25.beat)
-  notes = [$chord[0], $chord[2], $chord[0]].map{|n| n + 3.octaves}
-  3.times{|i| @bass.play_at(time + ((i + 1.0)/4.0).beats, notes[i], 0.25.beats, 100)}
-  Scails::Clock.instance.at(next_beat) { |t| kick_and_bass(t) }
-end
-
-module Scails::Shortcuts
-  def hello
-    puts "this is hello from Scails"
+def $redrum.woodblock time
+  _ = false
+  dur = 0.5.bars
+  tick = 0.25.beats
+  [36,_,_,_ ,37,_,37,_].each_with_index do |v, i|
+    play_at(time + (i * tick), v, tick) if v
   end
+  loop_at(time + dur, :woodblock) if self.repeat
 end
-extend Scails::Shortcuts
 
-hello
+$redrum.start(next_bar, :woodblock)
 
-def @pads.chords time
-  play($chord + 3.octaves, 1.bar)
-  10.times do |i| 
-    at(time + (0.1*i), :wheel=, (127 * sinr(Time.now, 10)))
+def chords time, this_chord = 'i'
+  $chord = c($key, this_chord)
+  puts $chord
+  next_chord = {
+    'i'   => ['i','v'],
+    'v'   => ['iv'],
+    'iv'  => ['i']
+  }[this_chord].choose
+  dur = 1.bar
+  loop_at(time + dur, :chords, next_chord)
+end
+
+$guitar = i($midi, 1)
+
+def $guitar.strum time
+  rhythm, volume = [
+    [[1  ,0.5,  1,0.5,0.5,0.5], [100,80,100,80,80,80]],
+    [[0.5,1  ,0.5,0.5,1  ,0.5], [80,100,80,100,80,80]]
+  ].wchoose([3,1])
+  vol =    [100, 80,100, 80, 80, 80]
+  i=0
+  rhythm = rhythm.map(&:beat)
+  next_time = rhythm.inject(time) do |mem, d|
+    $chord.each{|n| play_at(mem, n + 4.octaves, d, vol[i])}
+    i+=1
+    mem + d
   end
-  at(next_bar, :chords)
+  loop_at(next_time, :strum) if self.repeat
 end
 
-def @lead1.arps time
-  3.times {|i| play_at(time + (i/3.0).beats, $chord[i] + 5.octaves, 0.33.beats)}
-  at(next_beat, :arps)
-end
+Scails::Clock.instance.at(next_bar) { |t| chords(t, 'i') }
 
-@pads.start(next_bar, :chords)
+$guitar.start(next_bar + 1.bar, :strum)
 
-@lead1.start(next_bar, :arps)
-
-@pads.stop
-
-@lead1.stop
-
-Scails::Clock.instance.at(next_bar) { |t| chord_seq(t); kick_and_bass(t) }
-Scails::Clock.instance.at(next_bar) { |t| kick_and_bass(t) }
-
-exit
+$redrum.stop
+$guitar.stop

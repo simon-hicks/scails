@@ -28,7 +28,14 @@ module Scails::Shortcuts
 
     # shortcut to create Chord objects
     def c *args
-      Scails::Chord.new(*args)
+      key = args.shift
+      if args[0].is_a? Integer
+        degree, chord_type = args
+        name = degree.to_roman + chord_type.to_s
+      else
+        name = args[0]
+      end
+      Scails::Chord.new(key, name)
     end
 
     # shortcut to create Rhythm objects

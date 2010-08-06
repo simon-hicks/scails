@@ -3,7 +3,7 @@ class Scails::Key
 
   def initialize string
     @name = string.capitalize
-    @tonic = PITCH_LETTER_TO_NUMBER[@name[0..-4].upcase] #.select{|p, letters| letters.include?(string[0..-4].capitalize)}[0][0]
+    @tonic = PITCH_LETTER_TO_NUMBER[@name[0..-4].upcase]
     @intervals = SCALES[string[-3,3].downcase]
   end
 
@@ -33,6 +33,27 @@ class Scails::Key
     index = degree.to_i - 1
     octave = index / @intervals.size
     @intervals[(index % @intervals.size)] + (octave * 12) + @tonic + accidental
+  end
+
+  # returns an array of degrees that are consonant with degree
+  def consonant_degrees degree
+    [perfect_degrees(degree), imperfect_degrees(degree)].flatten
+  end
+
+  # returns an array of degrees that are perfectly consonant with degree
+  def perfect_degrees degree
+    # remember: a fourth from degree is (degree + 3)
+    candidates = [degree - 4, degree - 3, degree + 3, degree + 4].reject{|d| d < 1}
+    perfect = candidates.select{ |cd| [-7, -5, 5, 7].include?(at(cd) - at(degree)) }
+    perfect << degree + 7 << degree - 7
+    perfect.reject{|d| d < 1}
+  end
+
+  # returns an array of degrees that are imperfectly consonant with degree
+  def imperfect_degrees degree
+    # remember: a third from degree is (degree + 2)
+    candidates = [degree - 5, degree - 2, degree + 2, degree + 5].reject{|d| d < 1}
+    imperfect = candidates.select{ |cd| [-9, -8, -4, -3, 3, 4, 8, 9].include?(at(cd) - at(degree))}
   end
 
   # returns the degree number for a given tone in the scale. if the tone doesn't match, then the degree is returned with an accidental. degrees count continuously up from zero, so notes above the 1st octave will have degrees above 7

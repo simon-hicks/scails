@@ -1,4 +1,34 @@
 fix gem dependencies
 
-add osc shortcut
+Generators module and Stream module might be similar things... it might work well to implement the Generators as Stream objects
+
+create Scails::Generators module
+  contains functions that use transition matrices or similar to generate random melodys, rhythms etc.
+  when generating melodys of fixed length with constraints on the ending (cadence etc.) we need to ensure that an illegal transition is not required to meet the ending requirement in time.
+    for melodys of fixed length can use dynamic programming techniques to find the shortest path to an acceptable ending from each degre in the transition matrix
+    when the shortest path fro the current degree to an acceptable ending is the same length as the remaining notes to fill, that ending is used.
+
+create Stream class
+  responds to:
+    #next - returns the next item in the stream
+    #reset - returns the stream to the begining
+    #play(*durs, &block) - passes the items in the stream to the block in sequence at times defined by the durations in durs
+      can function as a one-shot list of durs (finishes when we've run out of durs)
+      can function as a loop, so an infinite stream  can loop through the same one bar rhythm indefinitely
+    #loop(*durs, &block) - like play, but when the stream reaches the end 
+  can subclass stream (or use a Stream mixin) to create different kinds of stream
+    streams that return successive values from a list
+    streams that use an algorithm to generate values independently of prior values (ie. a random, independent algorithm... eg. a random note from an arp)
+    streams that use previous values to generate to generate successive values (eg. a markov chord sequence, a random walk etc.)
+    streams that refer to an external variable to generate notes (eg. counterpoint lines that provide harmony for another stream)
+    streams that use a proc to generate the items first time, but store these values and become fixed list streams
+      streams that populate a fixed list using a generator proc and then on successive plays, they can use a mutator proc to make adjustments
+
+update control map system
+  add control_map.rb to requires
+  change instrument class to use control maps instead of the previous system
+  finish reason control maps
+  enable i(@midi, 1, "reason/subtractor") or i(@midi, 1).use_map("reason/subtractor")
+
+midi pattern sequencer (ie. an object that does the same as the control_oscillator does, except using a set of predefinied values)
 

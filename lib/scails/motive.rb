@@ -21,6 +21,18 @@ class Scails::Motive
     else
       @degrees.each{|d| yield d }
     end
+    self
+  end
+
+  # same as each except passing the index as well
+  def each_with_index key = nil
+    if key
+      key = key.is_a?(Scails::Key) ? key : Scails::Key.new(key)
+      @degrees.each_with_index{|d,i| yield [key.at(d), i] }
+    else
+      @degrees.each_with_index{|d,i| yield [d, i] }
+    end
+    self
   end
 
   # passes each degree to the block in turn and uses the resulting collection of notes to construct a new motive object
@@ -140,7 +152,15 @@ class Scails::Motive
       next_degree = apply_adjusted_step(new_degrees.last, s)
       new_degrees << next_degree
     end
-    Motive.new(new_degrees)
+    Scails::Motive.new(new_degrees)
+  end
+
+  def method_missing method, *args
+    if @degrees.respond_to? method
+      return @degrees.send(method, *args)
+    else
+      super(method, *args)
+    end
   end
 
   private
@@ -158,7 +178,9 @@ class Scails::Motive
   def apply_adjusted_step last_degree, step
     md = step.match(/(-)?(\d+)(\+|-)?/)
     operator = md[1] ? :- : :+
-    existing_accidental = last_degree[/#|b/] || ''
+    if last_degree.is_a? String
+      existing_accidental = last_degree[/#|b/] || ''
+    end
     extra_accidental = md[3].nil? ? '' : case md[3]
     when '+'
       operator == :- ? 'b' : '#'
@@ -166,7 +188,7 @@ class Scails::Motive
       operator == :+ ? 'b' : '#'
     end
     approximate_new_degree = last_degree.to_i.send(operator, md[2].to_i)
-    total_new_accidental = extra_accidental + existing_accidental
+    total_new_accidental = extra_accidental.to_s + existing_accidental.to_s
     return case total_new_accidental
     when '##'
       (approximate_new_degree + 1).to_s
